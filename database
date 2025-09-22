@@ -1,0 +1,110 @@
+
+create database etrade;
+use etrade
+create table users (
+    id INT PRIMARY KEY,
+    username VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL
+);
+create table address (
+    id INT PRIMARY KEY,
+    street VARCHAR(255),
+    city VARCHAR(100),
+    postal_code VARCHAR(20)
+);
+use etrade 
+create table orders (
+id int primary key,
+userid int,
+date date,
+totalprice decimal(10,2),
+status varchar (50),
+addressid int,
+foreign key (userid) references users(id),
+foreign key (addressid) references address(id)
+);
+use etrade
+create table countries (
+id int primary key,
+country varchar(100) not null
+);
+use etrade 
+create table cities	(
+id int primary key,
+countryid int,
+city varchar(100) not null,
+foreign key (countryid) references countries(id)
+);
+use etrade
+create table towns (
+id int primary key,
+cityid int,
+town varchar(100) not null,
+foreign key (cityid) references cities(id)
+);
+use etrade 
+create table districts (
+id int primary key,
+townid int,
+district varchar(100) not null,
+foreign key (townid) references towns(id)
+);
+use etrade 
+create table items (
+id int primary key,
+itemcode varchar(50) not null,
+itemname varchar(255) not null,
+itemtype varchar(100),
+unitprice decimal(10,2),
+category1 varchar(100),
+category2 varchar(100),
+category3 varchar(100),
+category4 varchar(100),
+brand varchar(100)
+);
+use etrade
+create table orderdetails (
+id int primary key,
+orderid int,
+itemid int,
+amount int,
+unitprice decimal(10,2),
+linetotal decimal(10,2),
+foreign key (orderid) references orders(id),
+foreign key (itemid) references items(id)
+);
+use etrade 
+create table invoices (
+id int primary key,
+orderid int,
+date date,
+addressid int,
+cargocicheno varchar(50),
+totalprice decimal(10,2),
+foreign key (orderid) references orders(id),
+foreign key (addressid) references address(id)
+);
+use etrade
+create table invoicdetails (
+id int primary key,
+invoiceid int,
+orderdetailid int,
+itemid int,
+amount int,
+unitprice decimal(10,2),
+linetotal decimal(10,2),
+foreign key (invoiceid) references invoices (id),
+foreign key (orderdetailid) references orderdetails(id),
+foreign key (itemid) references items(id)
+);
+use etrade
+create table payments 
+id int primary key,
+orderid int,
+paymenttype varchar(50),
+date date,
+isok bit,
+approvecode varchar(100),
+paymenttotal decimal(10,2),
+foreign key (orderid) references orders(id)
+);
