@@ -98,7 +98,7 @@ foreign key (orderdetailid) references orderdetails(id),
 foreign key (itemid) references items(id)
 );
 use etrade
-create table payments 
+create table payments (
 id int primary key,
 orderid int,
 paymenttype varchar(50),
